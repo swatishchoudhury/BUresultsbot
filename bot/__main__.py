@@ -36,25 +36,26 @@ async def pdf(update: Update, context: ContextTypes.DEFAULT_TYPE):
         text = update.message.text
         text = text.upper()
         msg = text.split(" ")
-        text0_bytes = msg[0].encode("ascii")
-        base64_bytes = base64.b64encode(text0_bytes)
-        base640_text = base64_bytes.decode("ascii")
 
-        text1_bytes = msg[1].encode("ascii")
-        base64_bytes = base64.b64encode(text1_bytes)
-        base641_text = base64_bytes.decode("ascii")
+        batch_bytes = msg[0].encode("ascii")
+        base64_bytes = base64.b64encode(batch_bytes)
+        batch = base64_bytes.decode("ascii")
 
-        text2_bytes = msg[2].encode("ascii")
-        base64_bytes = base64.b64encode(text2_bytes)
-        base642_text = base64_bytes.decode("ascii")
+        sem_bytes = msg[1].encode("ascii")
+        base64_bytes = base64.b64encode(sem_bytes)
+        sem = base64_bytes.decode("ascii")
+
+        roll_bytes = msg[2].encode("ascii")
+        base64_bytes = base64.b64encode(roll_bytes)
+        roll = base64_bytes.decode("ascii")
 
         pdfurl = (
             "https://berhampuruniversity.silicontechlab.com/buerp/build/examination/mark_sheet_pdf.php?regn_no="
-            + base642_text
+            + roll
             + "&sem="
-            + base641_text
+            + sem
             + "&batch="
-            + base640_text
+            + batch
             + "&cmbType=Regular"
         )
         weburl = (
@@ -86,7 +87,6 @@ async def pdf(update: Update, context: ContextTypes.DEFAULT_TYPE):
             cells = [cell.text for cell in row.find_all("td")]
             table_data += "\t".join(cells) + "\n"
 
-        # Send the table data as a single message
         await update.message.reply_text(
             table_data, reply_markup=reply_markup, parse_mode=ParseMode.HTML
         )
