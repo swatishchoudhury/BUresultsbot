@@ -34,6 +34,7 @@ Source: https://github\.com/swatishchoudhury/BUresultsbot""",
 async def pdf(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         text = update.message.text
+        text = text.upper()
         msg = text.split(" ")
         text0_bytes = msg[0].encode("ascii")
         base64_bytes = base64.b64encode(text0_bytes)
